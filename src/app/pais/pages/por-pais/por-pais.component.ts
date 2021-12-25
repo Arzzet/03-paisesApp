@@ -10,7 +10,7 @@ import { PaisService } from '../../services/pais.service';
 })
 export class PorPaisComponent  {
 
-  termino: string = 'Hola';
+  termino: string = '';
   hayError: boolean = false;
   paises: Country[] = [];
 
