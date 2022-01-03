@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap} from 'rxjs/operators';
+
+import { Country } from '../../interfaces/pais.interface';
 import { PaisService } from '../../services/pais.service';
 
 @Component({
@@ -10,6 +12,8 @@ import { PaisService } from '../../services/pais.service';
   ]
 })
 export class VerPaisComponent implements OnInit {
+  
+  pais!: Country[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -20,11 +24,11 @@ export class VerPaisComponent implements OnInit {
     // METODO USANDO SWITCHMAP DE RXJS ( TRANSFORMA UN OBSERVABLE EN OTRO OBSERVABLE )
     this.activatedRoute.params
       .pipe(
-        switchMap( ({id}) => this.paisService.getPaisPorCodigo(id))
+        switchMap( ({id}) => this.paisService.getPaisPorCodigo(id)),
+        tap(console.log)
       )
-      .subscribe( resp => {
-        console.log(resp);
-      })
+      .subscribe( pais => this.pais = pais );
+        
 
     // METODO TRADICIONAL DE OBTENER EL ID DEL PAIS ( USANDO 2 SUBSCRIBES )
     // this.activatedRoute.params
